@@ -4,20 +4,25 @@ const tableName = "reviews";
 
 async function destroy(reviewId) {
   // TODO: Write your code here
-  return knex(tableName)
+  return db(tableName)
     .where({ review_id: reviewId })
     .del();  
 }
 
 async function list(movie_id) {
   // TODO: Write your code here
-  return knex(tableName)
-    .select("*");  
+  return db("reviews")
+    .select("reviews.*, critics.*")
+    .join(
+      "critics",
+      "reviews.critic_id",
+      "critics.critic_id"
+    );
 }
 
 async function read(reviewId) {
   // TODO: Write your code here
-  return knex(tableName)
+  return db(tableName)
     .select("*")
     .where({ review_id: reviewId})
     .first();  

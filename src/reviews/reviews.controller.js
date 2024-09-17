@@ -15,13 +15,14 @@ async function reviewExists(request, response, next) {
 
 async function destroy(request, response) {
   // TODO: Write your code here
-  await service.delete(response.locals.review.reviewId);
-  res.sendStatus(204);
+  await service.destroy(response.locals.review.review_id);
+  response.sendStatus(204);
 }
 
 async function list(request, response) {
   // TODO: Write your code here
-
+  const { movieId } = request.params;
+  await service.list(movieId)
   response.json({  });
 }
 
@@ -47,7 +48,7 @@ async function update(request, response) {
     review_id: response.locals.review.review_id
   }
   const result = await service.update(updatedReview);
-  res.json({ data: result });
+  response.json({ data: result });
 
 }
 

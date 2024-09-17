@@ -14,17 +14,18 @@ async function movieExists(request, response, next) {
 
 async function read(request, response) {
   // TODO: Add your code here
-  response.json({ data: "" });
+  response.json({ data: response.locals.movie });
 }
 
 async function list(request, response) {
   // TODO: Add your code here.
-  const { isShowing } = request.params;
-  const data = await service.list(isShowing);
+  const { is_showing } = request.query;
+  const data = await service.list(is_showing);
   response.json({ data });
 }
 
 module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [asyncErrorBoundary(movieExists), read],
+  movieExists
 };

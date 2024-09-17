@@ -21,7 +21,7 @@ async function read(movie_id) {
   // TODO: Add your code here
   return db("movies")
     .select("*")
-    .where({ id: movie_id })
+    .where({ movie_id: movie_id })
     .first();
 }
 
