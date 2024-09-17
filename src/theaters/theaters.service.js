@@ -8,20 +8,27 @@ const reduceMovies = reduceProperties("theater_id", {
   rating: ["movies", null, "rating"],
   description: ["movies", null, "description"],
   image_url: ["movies", null, "image_url"],
+  is_showing: ["movies_theaters", null, "is_showing"],
+  theater_id: ["theaters", null, "theater_id"]
 });
 
-async function list(movieId) {
-  return db("theaters as t")
-    .join(
-      "movies_theaters as mt",
-      "t.theater_id",
-      "mt.theater_id"
-    )
-    .select("t.*")
-    .where({ 
-      "mt.movie_id": movieId, 
-      "mt.is_showing": true 
-    });
+async function list() {
+  const data = await db("theaters as t")
+                  .join(
+                    "movies_theaters as mt",
+                    "t.theater_id",
+                    "mt.theater_id"
+                  )
+                  .join(
+                    "movies as m",
+                    "mt.movie_id",
+                    "m.movie_id"
+                  )
+                  .select(
+                    "t.*", 
+                    "m.*"
+                  );
+  return reduceMovies(data);
 }
 
 module.exports = {
